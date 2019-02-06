@@ -1,4 +1,5 @@
 ﻿using System;
+using FindAndReplace.Class;
 
 namespace FindAndReplace
 {
@@ -7,6 +8,10 @@ namespace FindAndReplace
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            UserInterface ui = new UserInterface();
+            ui.RunUI();
+            Console.ReadLine();
+
         }
     }
 }
