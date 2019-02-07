@@ -11,11 +11,11 @@ namespace Capstone.Classes
         public void RunInterface()
         {
             bool done = false;
-            while (!done)
-            {
-                Console.WriteLine("This is the UserInterface");
-                Console.ReadLine();
-            }
+            ////while (!done)
+            //{
+            //    Console.WriteLine("BoBo");
+            //    Console.ReadLine();
+            //}
 
         }
     }
