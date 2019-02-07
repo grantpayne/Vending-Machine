@@ -6,17 +6,14 @@ namespace Capstone.Classes
 {
     public class UserInterface
     {
-        private VendingMachine vendingMachine = new VendingMachine();
+        public VendingMachine vendingMachine = new VendingMachine();
 
         public void RunInterface()
         {
+            vendingMachine.AddTender(5);
             bool done = false;
 
-            ////while (!done)
-            //{
-            //    Console.WriteLine("BoBo");
-            //    Console.ReadLine();
-            //}
+            
 
             while (!done)
             {

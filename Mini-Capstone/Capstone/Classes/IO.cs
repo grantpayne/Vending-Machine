@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Capstone.Classes;
 using System.Text;
 
 namespace Capstone.Classes
@@ -8,7 +9,7 @@ namespace Capstone.Classes
     class IO
     {
 
-        public List<string[]> FetchData(string filePath, string fileName)
+        public List<string[]> FetchData(string filePath, string fileName) 
         {
             List<string[]> stockList = new List<string[]>();
 
@@ -37,15 +38,32 @@ namespace Capstone.Classes
             return stockList;
             
         }
-
-        public void WriteReport(string filePath, string fileName)
+        
+        public void WriteReport(string filePath, string fileName) //override
         {
-
+            //TODO: Optional report
         }
 
-        public void WriteLog(string filePath, string fileName)
+        public void WriteLog(string filePath, string activity, decimal moneyPlaceHolder, decimal transactionBalance) //append
         {
+            //TODO: make date and currency pretty/correct
+            DateTime dateTime = new DateTime();
+            string currentDate = dateTime.Date.ToLongDateString();
+            string writePhrase = $"{currentDate} {activity} {moneyPlaceHolder} {transactionBalance}";
 
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(Path.Combine(filePath, "Log.txt"), true))
+                {
+                    writer.WriteLine(writePhrase);
+                }
+            }
+            catch (IOException ex)
+            {
+
+                Console.WriteLine("File write error - call customer support at (614) 565-8382");
+                Console.WriteLine(ex.Message);
+            }
         }
 
     }

@@ -4,9 +4,10 @@ using System.Text;
 
 namespace Capstone.Classes
 {
-         
+
     public class VendingMachineItem
     {
+        
         public int InventoryCount { get; set; }
         public decimal Price { get; }
         public string SlotID { get; }
@@ -15,8 +16,28 @@ namespace Capstone.Classes
         {
             get
             {
-                //derived
-                return "";
+                string message = "";
+
+                switch (SlotID[0])
+                {
+                    case 'A':
+                        message = "Crunch Crunch, Yum!";
+                        break;
+                    case 'B':
+                        message = "Munch Munch, Yum!";
+                        break;
+                    case 'C':
+                        message = "Glug Glug, Yum!";
+                        break;
+                    case 'D':
+                        message = "Chew Chew, Yum!";
+                        break;
+                    default:
+                        message = "Salad-dodger! This food is bad for you! Eat a salad.";
+                        break;
+                }
+
+                return message;
             }
         }
 
@@ -35,5 +56,5 @@ namespace Capstone.Classes
 
 
 
-    
+
 }
