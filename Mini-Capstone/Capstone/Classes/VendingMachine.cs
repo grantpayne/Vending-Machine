@@ -56,25 +56,91 @@ namespace Capstone.Classes
             //false if coutnerfit
         }
 
-        public bool Vend(string itemSelection)
+        public string Vend(string itemSelection)
         {
-            bool canAfford = false;
-            decimal initialBalance = TransactionBalance;
-            //checking balance and storing pre-balance for IO call
-            //dispense item if >0
-            //adjust inventory VendingMachineItem.Count -1
-            return canAfford;
+            
+
+             string result = "";
+
+            foreach (VendingMachineItem item in items)
+            {
+                if (item.SlotID == itemSelection)
+                {
+                    if (item.InventoryCount > 0)
+                    {
+
+
+                        if (TransactionBalance >= item.Price)
+                        {
+
+
+
+                            decimal initialBalance = TransactionBalance;
+
+                            item.InventoryCount--;
+                            TransactionBalance -= item.Price;
+                            TotalRevenue += item.Price;
+
+                            
+                            // pre-balance for IO call = TransactionBalance + item.Price;
+                            
+
+                           io.WriteLog(filePath, (item.ItemName + " " + item.SlotID), (TransactionBalance + item.Price), TransactionBalance);
+
+                            result = "SOLD";
+
+                            break;
+
+
+
+
+
+                        }
+                        else
+                        {
+                            result = "cantAfford";
+                            break;
+                        }
+
+
+                    }
+                    else
+                    {
+                        result = "OutOfStock";
+                        break;
+                    }
+                                                          
+                }
+                else
+                {
+                    result = "DoesNotExist";
+                }
+            }
+
+
+
+            return result;
         }
 
-        public int []  DispenseChange()
-        {   //use vendingMachine.TransactionBalance and break into coins.
-            //figure out quarters,nickels,dimes
-            int [] change = new int [3]; //quarter, nickel, dimes
-                                         //greedy algo?
+
+        public int[] DispenseChange()
+        {
+            //Assuming all prices are divisible by .05 cause no pennies;
+            //figure out quarters[0],dimes[1],nickels[2]
+            decimal tempBalance = TransactionBalance;
+            int[] change = new int[3];
+            change[0] = (int)Math.Floor(TransactionBalance / 0.25M);
+            TransactionBalance -= change[0]* 0.25M;
+            change[1] = (int)(Math.Floor(TransactionBalance / 0.10M));
+            TransactionBalance -= change[1] * 0.10M;
+            change[2] = (int)(Math.Floor(TransactionBalance  / 0.05M));
             TransactionBalance = 0;
+            io.WriteLog(filePath, "GIVE CHANGE:", tempBalance, TransactionBalance);
+
             return change;
+
         }
-        
+
         public List<VendingMachineItem> GetInventoryData()
         {
 

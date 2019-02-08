@@ -26,12 +26,14 @@ namespace Capstone.Classes
             bool isPurchaseTransactionComplete = false;
             Console.Clear();
             //TODO: Underline current menu title
-            Console.WriteLine("Welcome to Fulton Vending!\n\nMAIN MENU\nPlease make a selection:\n\n(1) Display Vending Machine Items\n(2) Purchase\n(3) End\n");
+            Console.WriteLine("Welcome to Fulton Vending!\n\nMAIN MENU\n\nPlease make a selection:\n\n(1) Display Vending Machine Items\n(2) Purchase\n(3) End\n");
             string menuInput = Console.ReadLine();
             if (menuInput == "1")
             {
 
                 Display();
+                Console.WriteLine("\nPress enter to return to the MAIN MENU...");
+                Console.ReadLine();
                 return false;
             }
             else if (menuInput == "2")
@@ -39,6 +41,7 @@ namespace Capstone.Classes
                 while (!isPurchaseTransactionComplete)
                 {
                     isPurchaseTransactionComplete = Purchase();
+
                 }
                 return false;
 
@@ -63,11 +66,6 @@ namespace Capstone.Classes
                 return false;
             }
 
-            //menu goes here
-            //2.The main menu should display when the software is run presenting the following options:
-
-            //(1) Display Vending Machine Items(2) Purchase(3) End
-
         }
 
 
@@ -84,7 +82,7 @@ namespace Capstone.Classes
             }
             itemsDisplay.Sort();
 
-            Console.WriteLine(string.Format("{0, 5} {1, 25} {2, 8:C} {3, 9}\n", " ", "Product", "Price", "Quantity"));
+            Console.WriteLine(string.Format("{0, 5} {1, 25} {2, 8:C} {3, 9}\n", "Code", "Product", "Price", "Quantity"));
 
             foreach (string item in itemsDisplay)
             {
@@ -92,27 +90,21 @@ namespace Capstone.Classes
                 Console.WriteLine(item);
             }
 
-            Console.WriteLine("\nPress enter to return to the MAIN MENU...");
-            Console.ReadLine();
+            //Console.WriteLine("\nPress enter to return to the MAIN MENU...");
+            //Console.ReadLine();
             //5. When the customer selects ​(1) Display Vending Machine Items​ they have presented a list of all items in the vending machine, the price, and its quantity remaining. a. Each vending machine product has a slot identifier and a purchase price. b. Each slot in the vending machine has enough room for 5 of that product. c. Every product is initially stocked to the maximum amount. d. A product which has run out should indicate it is SOLD OUT. 
         }
 
         public bool Purchase()
         {
-            //            7.When the customer selects ​(2) Purchase​ they are guided through the purchasing process menu:
-
-            //            (1) Feed Money(2) Select Product(3) Finish Transaction Current Money Provided: $2.00
-
-            Console.Clear();
-            //Customers remain in the purchase menu until they select 3 and are returned to the main menu(below).
             bool isPurchaseTransactionComplete = false;
 
             string userSelection = "";
             while (!(userSelection == "1" || userSelection == "2" || userSelection == "3"))
             {
-                Console.WriteLine("\nPURCHASE MENU\n\nPlease make a selection:\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\n");
+                Console.Clear();
+                Console.WriteLine("PURCHASE MENU\n\nPlease make a selection:\n\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\n");
                 Console.WriteLine("Current Money Provided: {0:C}\n", vendingMachine.TransactionBalance);
-                //Console.WriteLine(vendingMachine.TransactionBalance);
                 userSelection = Console.ReadLine();
 
             }
@@ -121,41 +113,80 @@ namespace Capstone.Classes
             {
 
                 bool isAccepted = false;
+                Console.Clear();
                 Console.WriteLine("Please enter dollar bill to deposit (U.S. currency only)");
-                //TODO: add error handling for parse
-                while (!isAccepted)
+                int dollarFeed = 0;
+
+                int.TryParse(Console.ReadLine(), out dollarFeed);
+                isAccepted = vendingMachine.AddTender(dollarFeed);
+
+                if (!isAccepted)
                 {
-                    int dollarFeed = int.Parse(Console.ReadLine());
-                    isAccepted = vendingMachine.AddTender(dollarFeed);
-                    if (!isAccepted)
-                    {
-                        Console.WriteLine("Valid U.S. currency ONLY\n");
-                    }
+                    Console.WriteLine("Valid U.S. currency ONLY\n");
+                    Console.ReadLine();
+                    isAccepted = true;
                 }
             }
             else if (userSelection == "2")
             {
+                Display();
+                Console.WriteLine("\nPlease select product code: ");
+                string prodcutSelector = Console.ReadLine();
 
-                int moneyTendered = 0;
-                //while false prompt for non counterfit money
-                vendingMachine.AddTender(moneyTendered);
+                string transactionResult = vendingMachine.Vend(prodcutSelector);
+                if (transactionResult == "SOLD")
 
-                string itemSelection = "";
+                {
 
-                //check transaction balance
-                //check if exist 
-                vendingMachine.Vend(itemSelection);
+
+                    List<VendingMachineItem> products = new List<VendingMachineItem>(vendingMachine.GetInventoryData());
+                    foreach (VendingMachineItem item in products)
+                    {
+                        if (item.SlotID == prodcutSelector)
+                        {
+                            Console.WriteLine(item.Message);
+                        }
+                    }
+                    Console.ReadLine();
+                    userSelection = "";
+
+
+                }
+                else
+                {
+                    if (transactionResult == "DoesNotExist")
+                    {
+                        Console.WriteLine("Item does not exist! Select a valid product code!");
+
+                    }
+                    else if (transactionResult == "OutOfStock")
+                    {
+                        Console.WriteLine("OUT OF STOCK! Please make another selection.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter more money or make another selection.");
+                    }
+
+
+                    Console.ReadLine();
+                    userSelection = "";
+
+                }
+
+
             }
             else
             {
-                vendingMachine.DispenseChange();  //display change from decimal [] 
+                Console.Clear();
+                Console.WriteLine($"Your change is {vendingMachine.TransactionBalance.ToString("C")}");
+                int [] change = vendingMachine.DispenseChange();  //display change from decimal [] 
+                Console.WriteLine($"{change[0]} quarters, {change[1]} dimes, {change[2]} nickels");
+                Console.ReadLine();
                 isPurchaseTransactionComplete = true;
+
             }
 
-
-
-
-            //while done tendering and selecting
 
 
 

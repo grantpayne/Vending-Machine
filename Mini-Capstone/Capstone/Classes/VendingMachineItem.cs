@@ -21,15 +21,19 @@ namespace Capstone.Classes
                 switch (SlotID[0])
                 {
                     case 'A':
+                    case 'a':
                         message = "Crunch Crunch, Yum!";
                         break;
                     case 'B':
+                    case 'b':
                         message = "Munch Munch, Yum!";
                         break;
                     case 'C':
+                    case 'c':
                         message = "Glug Glug, Yum!";
                         break;
                     case 'D':
+                    case 'd':
                         message = "Chew Chew, Yum!";
                         break;
                     default:
