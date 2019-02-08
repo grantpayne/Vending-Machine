@@ -24,6 +24,7 @@ namespace Capstone.Classes
             List<string[]> stockList = new List<string[]>();
             stockList = io.FetchData(filePath, fileName);
 
+            //TODO: refactor stockItemArray indexing variables to specific names
 
             foreach (string[] stockItemArray in stockList)
             {
@@ -35,12 +36,23 @@ namespace Capstone.Classes
 
         public bool AddTender(int moneyTendered)
         {
-            //checked for dollars bills
+            //checked for dollars bills {1, 2, 5, 10, 20}
+            List<int> allowedBills = new List<int> { 1, 2, 5, 10, 20 };
+            bool isAcceptedUSBill = allowedBills.Contains(moneyTendered);
+
+            if (isAcceptedUSBill)
+            {
+                TransactionBalance += moneyTendered;
+                io.WriteLog(filePath, "FEED MONEY:", moneyTendered, TransactionBalance);
+                return isAcceptedUSBill;
+            }
+            else
+            {
+                return isAcceptedUSBill;
+            }
             // if good update log
             //update TransactionBalance
             //return true;
-            io.WriteLog(filePath, "FEED MONEY:", moneyTendered, TransactionBalance);
-            return false;
             //false if coutnerfit
         }
 
@@ -63,6 +75,11 @@ namespace Capstone.Classes
             return change;
         }
         
+        public List<VendingMachineItem> GetInventoryData()
+        {
+
+            return items;
+        }
 
     }
 
