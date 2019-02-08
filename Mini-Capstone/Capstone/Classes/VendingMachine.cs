@@ -64,6 +64,11 @@ namespace Capstone.Classes
             return change;
         }
         
+        public List<VendingMachineItem> GetInventoryData()
+        {
+
+            return items;
+        }
 
     }
 

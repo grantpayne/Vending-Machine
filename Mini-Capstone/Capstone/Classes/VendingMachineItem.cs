@@ -50,6 +50,21 @@ namespace Capstone.Classes
             InventoryCount = 5;
         }
 
+        public override string ToString()
+        {
+            string result = (string.Format("{0, 5} {1, 25} {2, 8:C}", SlotID, ItemName, Price));
+            if (InventoryCount == 0)
+            {
+                result += "SOLD OUT".PadLeft(10);
+            }
+            else
+            {
+                result += InventoryCount.ToString().PadLeft(10);
+            }
+            return result;
+
+        }
+
 
     }
 
