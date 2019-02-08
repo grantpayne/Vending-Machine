@@ -47,7 +47,7 @@ namespace Capstone.Classes
         public void WriteLog(string filePath, string activity, decimal moneyPlaceHolder, decimal transactionBalance) //append
         {
             //TODO: make date and currency pretty/correct
-            string currentDate = DateTime.Now.ToString();
+            string currentDate = DateTime.UtcNow.ToString();
             string writePhrase = string.Format("{0,-25} {1,-25} {2,-8:C} {3:C}", currentDate, activity, moneyPlaceHolder, transactionBalance);
 
             try
