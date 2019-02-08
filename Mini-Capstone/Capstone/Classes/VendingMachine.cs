@@ -24,6 +24,7 @@ namespace Capstone.Classes
             List<string[]> stockList = new List<string[]>();
             stockList = io.FetchData(filePath, fileName);
 
+            //TODO: refactor stockItemArray indexing variables to specific names
 
             foreach (string[] stockItemArray in stockList)
             {
