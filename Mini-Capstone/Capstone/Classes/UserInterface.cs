@@ -103,7 +103,7 @@ namespace Capstone.Classes
 
             //            (1) Feed Money(2) Select Product(3) Finish Transaction Current Money Provided: $2.00
 
-
+            Console.Clear();
             //Customers remain in the purchase menu until they select 3 and are returned to the main menu(below).
             bool isPurchaseTransactionComplete = false;
 
@@ -112,7 +112,7 @@ namespace Capstone.Classes
             {
                 Console.WriteLine("\nPURCHASE MENU\n\nPlease make a selection:\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\n");
                 Console.WriteLine("Current Money Provided: {0:C}\n", vendingMachine.TransactionBalance);
-                Console.WriteLine(vendingMachine.TransactionBalance);
+                //Console.WriteLine(vendingMachine.TransactionBalance);
                 userSelection = Console.ReadLine();
 
             }
@@ -136,26 +136,28 @@ namespace Capstone.Classes
             else if (userSelection == "2")
             {
 
+                int moneyTendered = 0;
+                //while false prompt for non counterfit money
+                vendingMachine.AddTender(moneyTendered);
+
+                string itemSelection = "";
+
+                //check transaction balance
+                //check if exist 
+                vendingMachine.Vend(itemSelection);
             }
             else
             {
+                vendingMachine.DispenseChange();  //display change from decimal [] 
                 isPurchaseTransactionComplete = true;
             }
 
-            int moneyTendered = 0;
-            //while false prompt for non counterfit money
-            vendingMachine.AddTender(moneyTendered);
-
-            string itemSelection = "";
-
-            //check transaction balance
-            //check if exist 
-            vendingMachine.Vend(itemSelection);
 
 
 
             //while done tendering and selecting
-            vendingMachine.DispenseChange();  //display change from decimal [] 
+
+
 
             return isPurchaseTransactionComplete;
         }
