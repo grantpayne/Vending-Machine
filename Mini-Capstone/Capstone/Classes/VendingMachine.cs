@@ -55,7 +55,7 @@ namespace Capstone.Classes
 
         public string Vend(string itemSelection)
         {
-            //TODO KH ADDED CONST FOR STATUS
+            //TODO KH ADDED CONST FOR STATUS // TODO Look for class constants
             const string sold = "SOLD";
             const string outOfStock = "OutOfStock";
             const string notASlotID = "DoesNotExist";

@@ -29,9 +29,9 @@ namespace Capstone.Classes
             //const bool Complete = true;
             const bool Incomplete = false;
             bool isPurchaseTransactionComplete = Incomplete;
-            const string DisplaySelction = "1";
+            const string DisplaySelction = "1"; // TODO spell correctly
             const string PurchaseSelection = "2";
-            const string SecretReport = "9";
+            const string SecretReport = "9"; // TODO consistent naming
             const string EndProgram = "3";
 
             if (menuInput == DisplaySelction)
@@ -108,7 +108,6 @@ namespace Capstone.Classes
             {
                 FeedMoney();
             }
-
             else if (userSelection == SelectProductOption)
             {
                 SelectProduct();
