@@ -6,7 +6,7 @@ namespace Capstone.Classes
 {
     public class VendingMachine
     {
-        //constructor takes in filepath and creats lis of content
+        //constructor takes in filepath and creats list of content
 
         private List<VendingMachineItem> items = new List<VendingMachineItem>(); //do not change
         private string filePath = @"C:\VendingMachine"; //do not change  - write all files/reports here...
@@ -39,16 +39,15 @@ namespace Capstone.Classes
             //checked for dollars bills {1, 2, 5, 10, 20}
             List<int> allowedBills = new List<int> { 1, 2, 5, 10, 20 };
             bool isAcceptedUSBill = allowedBills.Contains(moneyTendered);
-
             if (isAcceptedUSBill)
             {
                 TransactionBalance += moneyTendered;
                 io.WriteLog(filePath, "FEED MONEY:", moneyTendered, TransactionBalance);
-                return isAcceptedUSBill;
+                return isAcceptedUSBill; // magic constant
             }
             else
             {
-                return isAcceptedUSBill;
+                return isAcceptedUSBill; // magic constant
             }
             // if good update log
             //update TransactionBalance
@@ -87,7 +86,7 @@ namespace Capstone.Classes
 
                            io.WriteLog(filePath, (item.ItemName + " " + item.SlotID), (TransactionBalance + item.Price), TransactionBalance);
 
-                            result = "SOLD";
+                            result = "SOLD"; //TODO// Magic Constant? make property 
 
                             break;
 
@@ -98,7 +97,7 @@ namespace Capstone.Classes
                         }
                         else
                         {
-                            result = "cantAfford";
+                            result = "cantAfford"; // Magic Constant
                             break;
                         }
 
@@ -106,14 +105,14 @@ namespace Capstone.Classes
                     }
                     else
                     {
-                        result = "OutOfStock";
+                        result = "OutOfStock"; // Magic Constant
                         break;
                     }
                                                           
                 }
                 else
                 {
-                    result = "DoesNotExist";
+                    result = "DoesNotExist"; // Magic Constant
                 }
             }
 
@@ -125,15 +124,20 @@ namespace Capstone.Classes
 
         public int[] DispenseChange()
         {
-            //Assuming all prices are divisible by .05 cause no pennies;
-            //figure out quarters[0],dimes[1],nickels[2]
+            // Assume all prices are divisible by 5 cents because there are no pennies.
+            // Figure out quarters[0], dimes[1], nickels[2]
+
             decimal tempBalance = TransactionBalance;
             int[] change = new int[3];
+
             change[0] = (int)Math.Floor(TransactionBalance / 0.25M);
-            TransactionBalance -= change[0]* 0.25M;
+            TransactionBalance -= change[0] * 0.25M;
+
             change[1] = (int)(Math.Floor(TransactionBalance / 0.10M));
             TransactionBalance -= change[1] * 0.10M;
-            change[2] = (int)(Math.Floor(TransactionBalance  / 0.05M));
+
+            change[2] = (int)(Math.Floor(TransactionBalance / 0.05M));
+
             TransactionBalance = 0;
             io.WriteLog(filePath, "GIVE CHANGE:", tempBalance, TransactionBalance);
 

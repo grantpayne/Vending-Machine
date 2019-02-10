@@ -47,11 +47,11 @@ namespace Capstone.Classes
 
         //constructor
         public VendingMachineItem(string slotID, string itemName, decimal price)
-        {
+        {   
             SlotID = slotID;
             ItemName = itemName;
             Price = price;
-            InventoryCount = 5;
+            InventoryCount = 5; //initial inventory set to maximum which is 5; property of vending machine then reference here...
         }
 
         public override string ToString()

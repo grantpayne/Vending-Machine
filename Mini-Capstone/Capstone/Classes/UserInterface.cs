@@ -28,42 +28,42 @@ namespace Capstone.Classes
             //TODO: Underline current menu title
             Console.WriteLine("Welcome to Fulton Vending!\n\nMAIN MENU\n\nPlease make a selection:\n\n(1) Display Vending Machine Items\n(2) Purchase\n(3) End\n");
             string menuInput = Console.ReadLine();
-            if (menuInput == "1")
+            if (menuInput == "1") // Magic Constant test
             {
 
                 Display();
                 Console.WriteLine("\nPress enter to return to the MAIN MENU...");
                 Console.ReadLine();
-                return false;
+                return false; // return discontinueMenu
             }
-            else if (menuInput == "2")
+            else if (menuInput == "2") // Magic Constant test
             {
                 while (!isPurchaseTransactionComplete)
                 {
                     isPurchaseTransactionComplete = Purchase();
 
                 }
-                return false;
+                return false; // return discontinueMenu
 
             }
-            else if (menuInput == "3")
+            else if (menuInput == "3") // Magic Constant test
             {
                 Console.WriteLine("Press enter to exit.");
                 Console.ReadLine();
-                return true;
+                return true; // return continueMenu
             }
-            else if (menuInput == "9")
+            else if (menuInput == "9") // Magic Constant test
             {
                 Console.WriteLine("Generating summary report...");
                 OptionalReport();
                 Console.ReadLine();
-                return false;
+                return false; // return discontinueMenu
             }
             else
             {
                 Console.WriteLine("Invalid selection - press enter to return to the main menu.");
                 Console.ReadLine();
-                return false;
+                return false; // return discontinueMenu
             }
 
         }
@@ -98,9 +98,10 @@ namespace Capstone.Classes
         public bool Purchase()
         {
             bool isPurchaseTransactionComplete = false;
-
             string userSelection = "";
-            while (!(userSelection == "1" || userSelection == "2" || userSelection == "3"))
+
+            // might want to consider separate method for testing valid user selection
+            while (!(userSelection == "1" || userSelection == "2" || userSelection == "3")) // Magic Constant test
             {
                 Console.Clear();
                 Console.WriteLine("PURCHASE MENU\n\nPlease make a selection:\n\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\n");
@@ -109,7 +110,14 @@ namespace Capstone.Classes
 
             }
 
-            if (userSelection == "1")
+            // example
+            // if ( feedMoneyOption() )
+            //     feedMoneyLogic();
+            // else if ( vendOption() )
+            //     vendLogic();
+            // else if ( dispenseChangeOption() )
+            //     dispenseChangeLogic();
+            if (userSelection == "1") // Magic Constant test
             {
 
                 bool isAccepted = false;
@@ -124,17 +132,17 @@ namespace Capstone.Classes
                 {
                     Console.WriteLine("Valid U.S. currency ONLY\n");
                     Console.ReadLine();
-                    isAccepted = true;
+                    isAccepted = true; // Is this being used anywhere now? There is no loop right now.
                 }
             }
-            else if (userSelection == "2")
+            else if (userSelection == "2") // Magic Constant test
             {
                 Display();
                 Console.WriteLine("\nPlease select product code: ");
-                string prodcutSelector = Console.ReadLine();
+                string prodcutSelector = Console.ReadLine(); // TODO Fix prodcutSelector spelling
 
                 string transactionResult = vendingMachine.Vend(prodcutSelector);
-                if (transactionResult == "SOLD")
+                if (transactionResult == "SOLD")//Magic Sold
 
                 {
 
@@ -154,12 +162,12 @@ namespace Capstone.Classes
                 }
                 else
                 {
-                    if (transactionResult == "DoesNotExist")
+                    if (transactionResult == "DoesNotExist") // Magic Constant test
                     {
                         Console.WriteLine("Item does not exist! Select a valid product code!");
 
                     }
-                    else if (transactionResult == "OutOfStock")
+                    else if (transactionResult == "OutOfStock") // Magic Constant test
                     {
                         Console.WriteLine("OUT OF STOCK! Please make another selection.");
                     }
@@ -184,13 +192,13 @@ namespace Capstone.Classes
                 Console.WriteLine($"{change[0]} quarters, {change[1]} dimes, {change[2]} nickels");
                 Console.ReadLine();
                 isPurchaseTransactionComplete = true;
-
+                //return PurchaseTransactionComplete (true)//add this at top to avoid magic numbers.
             }
 
 
 
 
-            return isPurchaseTransactionComplete;
+            return isPurchaseTransactionComplete;  //purchaseTranscationIncomplete = false;
         }
 
 
