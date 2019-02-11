@@ -120,7 +120,7 @@ namespace Capstone.Classes
             return items;
         }
 
-        public void FetchSalesReportData(VendingMachine vendingMachineName)
+        public void WriteSalesReportData(VendingMachine vendingMachineName)
         {
             io.WriteReport(filePath, items, vendingMachineName);
         }

@@ -58,7 +58,7 @@ namespace Capstone.Classes
             else if (menuInput == SecretReport)
             {
                 Console.WriteLine("Generating sales report...");
-                OptionalReport();
+                InitiateSalesReport();
                 Console.ReadLine();
                 Console.Clear();
                 return StopMenu;
@@ -121,9 +121,9 @@ namespace Capstone.Classes
             }//finished
             return PurchaseIncomplete;
         } //Purchase
-        public void OptionalReport()
+        public void InitiateSalesReport()
         {
-            vendingMachine.FetchSalesReportData(vendingMachine);
+            vendingMachine.WriteSalesReportData(vendingMachine);
         }//OptionalReport
         public void EmptyMachine()
         {
