@@ -20,7 +20,7 @@ namespace Capstone.Classes
         {
             Console.Clear();
             //TODO: Underline current menu title
-            Console.WriteLine("Welcome to Fulton Vending!\n\nMAIN MENU\n\nPlease make a selection:\n\n(1) Display Vending Machine Items\n(2) Purchase\n(3) End\n");
+            Console.WriteLine("Fulton Vending Company\n\n---Food Refactored---\n\n\nMAIN MENU\n\nPlease make a selection:\n\n(1) Display Vending Machine Items\n(2) Purchase\n(3) End\n");
             string menuInput = Console.ReadLine();
 
             //TODO: KH Done Magic Constant for menu
@@ -125,27 +125,34 @@ namespace Capstone.Classes
         {
             vendingMachine.WriteSalesReportData(vendingMachine);
         }//OptionalReport
-        public void EmptyMachine()
-        {
-
-        }//EmptyMachine
+        
 
         public void FeedMoney()
         {
-            const bool Counterfeit = false;
-            bool isFeedMoneyAccepted = Counterfeit;
+            List<string> allowedBills = new List<string> { "1", "2", "5", "10", "20" };
+            //const bool Counterfeit = false;
+            //bool isFeedMoneyAccepted = Counterfeit;
 
             Console.Clear();
             Console.WriteLine("Please enter dollar bill to deposit (U.S. currency only)");
-            int dollarFeed = 0;
-            int.TryParse(Console.ReadLine(), out dollarFeed);
-            isFeedMoneyAccepted = vendingMachine.AddTender(dollarFeed);
+            string dollarFeedInput = Console.ReadLine();
 
-            if (isFeedMoneyAccepted == Counterfeit)
+            if ( allowedBills.Contains(dollarFeedInput))
             {
-                Console.WriteLine("Valid U.S. currency ONLY\n");
-                Console.ReadLine();
+               
+                int dollarFeed = 0;
+                int.TryParse(dollarFeedInput, out dollarFeed);
+                vendingMachine.AddTender(dollarFeed);
+
             }
+            else
+            {
+                Console.WriteLine("Whole dollar amounts ONLY: 1, 2, 5, 10, 20\n");
+                Console.ReadLine();
+
+            }
+
+
         }//FeedMoney
         public void SelectProduct()
         {

@@ -28,29 +28,23 @@ namespace Capstone.Classes
                 string slotId = (stockItemArray[0]);
                 string itemName = (stockItemArray[1]);
                 decimal price = decimal.Parse(stockItemArray[2]);//TODO: Handle Parse exception
-                items.Add(new VendingMachineItem(slotId, itemName, price)); 
+                items.Add(new VendingMachineItem(slotId, itemName, price));
             }
 
         }
 
 
-        public bool AddTender(int moneyTendered)
+        public void AddTender(int moneyTendered)
         {
             //checked for dollars bills {1, 2, 5, 10, 20}
-            List<int> allowedBills = new List<int> { 1, 2, 5, 10, 20 };
-            bool isAcceptedUSBill = allowedBills.Contains(moneyTendered);
+            //List<int> allowedBills = new List<int> { 1, 2, 5, 10, 20 };
+            //bool isAcceptedUSBill = allowedBills.Contains(moneyTendered);
 
-            if (isAcceptedUSBill)
-            {
-                TransactionBalance += moneyTendered;
-                io.WriteLog(filePath, "FEED MONEY:", moneyTendered, TransactionBalance);
-                return isAcceptedUSBill; 
-            }
-            else
-            {
-                return isAcceptedUSBill; 
-            }
-          
+
+            TransactionBalance += moneyTendered;
+            io.WriteLog(filePath, "FEED MONEY:", moneyTendered, TransactionBalance);
+
+
         }
 
         public string Vend(string itemSelection)
@@ -76,12 +70,12 @@ namespace Capstone.Classes
                             TotalRevenue += item.Price;
                             // pre-balance for IO call = TransactionBalance + item.Price;
                             io.WriteLog(filePath, (item.ItemName + " " + item.SlotID), (TransactionBalance + item.Price), TransactionBalance);
-                            result = sold; 
+                            result = sold;
                             break;
                         }
                         else
                         {
-                            result = cantAfford; 
+                            result = cantAfford;
                             break;
                         }
                     }
@@ -89,11 +83,11 @@ namespace Capstone.Classes
                     {
                         result = outOfStock;
                         break;
-                    }                                                  
+                    }
                 }
                 else
                 {
-                    result = notASlotID; 
+                    result = notASlotID;
                 }
             }
             return result;
@@ -113,7 +107,7 @@ namespace Capstone.Classes
             TransactionBalance = 0;
             io.WriteLog(filePath, "GIVE CHANGE:", tempBalance, TransactionBalance);
             return change;
-            }
+        }
 
         public List<VendingMachineItem> GetInventoryData()
         {
