@@ -11,7 +11,6 @@ namespace Capstone.Classes
         private List<VendingMachineItem> items = new List<VendingMachineItem>(); //do not change
         private string filePath = @"C:\VendingMachine"; //do not change  - write all files/reports here...
         private string logFileName = @"vendingmachine.csv";
-        private string salesReportFileName = DateTime.UtcNow.ToString();
         public decimal TransactionBalance { get; private set; }
         public decimal TotalRevenue { get; private set; }
         IO io = new IO();
@@ -119,6 +118,11 @@ namespace Capstone.Classes
         public List<VendingMachineItem> GetInventoryData()
         {
             return items;
+        }
+
+        public void FetchSalesReportData(VendingMachine vendingMachineName)
+        {
+            io.WriteReport(filePath, items, vendingMachineName);
         }
 
     }

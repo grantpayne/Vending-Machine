@@ -22,7 +22,7 @@ namespace Capstone.Classes
             //TODO: Underline current menu title
             Console.WriteLine("Welcome to Fulton Vending!\n\nMAIN MENU\n\nPlease make a selection:\n\n(1) Display Vending Machine Items\n(2) Purchase\n(3) End\n");
             string menuInput = Console.ReadLine();
-           
+
             //TODO: KH Done Magic Constant for menu
             const bool StopMenu = false;
             const bool ContinueMenu = true;
@@ -57,9 +57,10 @@ namespace Capstone.Classes
             }
             else if (menuInput == SecretReport)
             {
-                Console.WriteLine("Generating summary report...");
+                Console.WriteLine("Generating sales report...");
                 OptionalReport();
                 Console.ReadLine();
+                Console.Clear();
                 return StopMenu;
             }
             else
@@ -89,7 +90,7 @@ namespace Capstone.Classes
         {
             const bool PurchaseComplete = true;
             const bool PurchaseIncomplete = false;
-            
+
 
             string userSelection = "";
             const string FeedMoneyOption = "1";
@@ -118,41 +119,41 @@ namespace Capstone.Classes
                 FinishTransaction();
                 return PurchaseComplete;
             }//finished
-            return PurchaseIncomplete; 
+            return PurchaseIncomplete;
         } //Purchase
         public void OptionalReport()
-{
-
-}//OptionalReport
+        {
+            vendingMachine.FetchSalesReportData(vendingMachine);
+        }//OptionalReport
         public void EmptyMachine()
-{
+        {
 
-}//EmptyMachine
+        }//EmptyMachine
 
         public void FeedMoney()
-{
-    const bool Counterfeit = false;
-    bool isFeedMoneyAccepted = Counterfeit;
+        {
+            const bool Counterfeit = false;
+            bool isFeedMoneyAccepted = Counterfeit;
 
-    Console.Clear();
-    Console.WriteLine("Please enter dollar bill to deposit (U.S. currency only)");
-    int dollarFeed = 0;
-    int.TryParse(Console.ReadLine(), out dollarFeed);
-    isFeedMoneyAccepted = vendingMachine.AddTender(dollarFeed);
+            Console.Clear();
+            Console.WriteLine("Please enter dollar bill to deposit (U.S. currency only)");
+            int dollarFeed = 0;
+            int.TryParse(Console.ReadLine(), out dollarFeed);
+            isFeedMoneyAccepted = vendingMachine.AddTender(dollarFeed);
 
-    if (isFeedMoneyAccepted == Counterfeit)
-    {
-        Console.WriteLine("Valid U.S. currency ONLY\n");
-        Console.ReadLine();
-    }
-}//FeedMoney
+            if (isFeedMoneyAccepted == Counterfeit)
+            {
+                Console.WriteLine("Valid U.S. currency ONLY\n");
+                Console.ReadLine();
+            }
+        }//FeedMoney
         public void SelectProduct()
         {
             Display();
 
             Console.WriteLine("\nPlease select product code: ");
             string productSelector = Console.ReadLine(); // TODO KH Done Fix productSelector spelling
-             
+
             string transactionResult = vendingMachine.Vend(productSelector);
 
             if (transactionResult == "SOLD")//Magic Sold
@@ -160,12 +161,12 @@ namespace Capstone.Classes
                 List<VendingMachineItem> products = new List<VendingMachineItem>(vendingMachine.GetInventoryData());
                 foreach (VendingMachineItem item in products)
                 {
-                    if (item.SlotID.ToUpper() == productSelector.ToUpper()) 
+                    if (item.SlotID.ToUpper() == productSelector.ToUpper())
                     {
                         Console.WriteLine(item.Message);
                     }
                 }
-              
+
             }
             else if (transactionResult == "DoesNotExist") // Magic Constant test
             {
@@ -180,18 +181,18 @@ namespace Capstone.Classes
                 Console.WriteLine("Please enter more money or make another selection.");
             }
             Console.ReadLine();
-            
-           
+
+
         }//SelectProduct
         public void FinishTransaction()
         {
 
-        Console.Clear();
-        Console.WriteLine($"Your change is {vendingMachine.TransactionBalance.ToString("C")}");
-        int[] change = vendingMachine.DispenseChange();  //display change from decimal [] 
-        Console.WriteLine($"{change[0]} quarters, {change[1]} dimes, {change[2]} nickels");
-        Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine($"Your change is {vendingMachine.TransactionBalance.ToString("C")}");
+            int[] change = vendingMachine.DispenseChange();  //display change from decimal [] 
+            Console.WriteLine($"{change[0]} quarters, {change[1]} dimes, {change[2]} nickels");
+            Console.ReadLine();
         }//FinishTransaction
 
-        }//class
+    }//class
 }//namespace

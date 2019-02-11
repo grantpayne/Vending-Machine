@@ -9,7 +9,7 @@ namespace Capstone.Classes
     class IO
     {
 
-        public List<string[]> FetchData(string filePath, string fileName) 
+        public List<string[]> FetchData(string filePath, string fileName)
         {
             List<string[]> stockList = new List<string[]>();
 
@@ -36,19 +36,38 @@ namespace Capstone.Classes
             }
 
             return stockList;
-            
+
         }
-        
-        public void WriteReport(string filePath, string fileName) //override
+
+        public void WriteReport(string filePath, List<VendingMachineItem> CurrentItemsInventory, VendingMachine vendingMachineName) //override
         {
             //TODO: Optional report
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(Path.Combine(filePath, $"salesReport_ {DateTime.UtcNow.ToString("MM-dd-yyyy_hh-mm-ss")}.txt"), false))
+                {
+                    foreach (VendingMachineItem item in CurrentItemsInventory)
+                    {
+                        writer.WriteLine($"{item.ItemName}|{5 - item.InventoryCount}");
+                    }
+                    writer.WriteLine($"\n** TOTAL SALES ** {vendingMachineName.TotalRevenue:C}");
+                }
+            }
+            catch (IOException ex)
+            {
+
+                Console.WriteLine("File write error - call customer support at (614) 565-8382");
+                Console.WriteLine(ex.Message);
+                
+            }
+
+
         }
 
         public void WriteLog(string filePath, string activity, decimal moneyPlaceHolder, decimal transactionBalance) //append
         {
             //TODO: make date and currency pretty/correct
-            string currentDate = DateTime.UtcNow.ToString();
-            string writePhrase = string.Format("{0,-25} {1,-25} {2,-8:C} {3:C}", currentDate, activity, moneyPlaceHolder, transactionBalance);
+            string writePhrase = string.Format("{0,-25} {1,-25} {2,-8:C} {3:C}", DateTime.UtcNow.ToString(), activity, moneyPlaceHolder, transactionBalance);
 
             try
             {
