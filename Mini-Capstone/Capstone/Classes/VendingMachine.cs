@@ -10,7 +10,8 @@ namespace Capstone.Classes
 
         private List<VendingMachineItem> items = new List<VendingMachineItem>(); //do not change
         private string filePath = @"C:\VendingMachine"; //do not change  - write all files/reports here...
-        private string fileName = @"vendingmachine.csv";
+        private string logFileName = @"vendingmachine.csv";
+        private string salesReportFileName = DateTime.UtcNow.ToString();
         public decimal TransactionBalance { get; private set; }
         public decimal TotalRevenue { get; private set; }
         IO io = new IO();
@@ -20,7 +21,7 @@ namespace Capstone.Classes
             TransactionBalance = 0M;
             TotalRevenue = 0M;
             List<string[]> stockList = new List<string[]>();
-            stockList = io.FetchData(filePath, fileName);
+            stockList = io.FetchData(filePath, logFileName);
 
             //TODO: KH Done refactor stockItemArray indexing variables to specific names
             foreach (string[] stockItemArray in stockList)
@@ -55,7 +56,7 @@ namespace Capstone.Classes
 
         public string Vend(string itemSelection)
         {
-            //TODO KH ADDED CONST FOR STATUS // TODO Look for class constants
+            //TODO KH ADDED CONST FOR STATUS
             const string sold = "SOLD";
             const string outOfStock = "OutOfStock";
             const string notASlotID = "DoesNotExist";
