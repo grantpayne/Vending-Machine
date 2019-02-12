@@ -8,7 +8,7 @@ namespace Capstone.Classes
     public class VendingMachineItem
     {
         
-        public int InventoryCount { get; set; }
+        public int InventoryCount { get; set; } //should this be a private setter?
         public decimal Price { get; }
         public string SlotID { get; }
         public string ItemName { get; }

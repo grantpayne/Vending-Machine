@@ -125,8 +125,7 @@ namespace Capstone.Classes
         public void InitiateSalesReport()
         {
             vendingMachine.WriteSalesReportData(vendingMachine);
-        }//OptionalReport
-        
+        }//InitiateSalesReport
 
         public void FeedMoney()
         {
