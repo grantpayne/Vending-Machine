@@ -41,7 +41,10 @@ namespace Capstone.Classes
 
         public void WriteReport(string filePath, List<VendingMachineItem> CurrentItemsInventory, VendingMachine vendingMachineName) //override
         {
+<<<<<<< HEAD
             
+=======
+>>>>>>> cb5035f132b4e8cbae0e5aa069e365bd6450475e
             try
             {
                 using (StreamWriter writer = new StreamWriter(Path.Combine(filePath, $"salesReport_ {DateTime.UtcNow.ToString("MM-dd-yyyy_hh-mm-ss")}.txt"), false))
@@ -50,7 +53,7 @@ namespace Capstone.Classes
                     {
                         writer.WriteLine($"{item.ItemName}|{5 - item.InventoryCount}");
                     }
-                    writer.WriteLine($"\n** TOTAL SALES ** {vendingMachineName.TotalRevenue:C}");
+                    writer.WriteLine($"\n** TOTAL SALES **  {vendingMachineName.TotalRevenue:C}");
                 }
             }
             catch (IOException ex)
