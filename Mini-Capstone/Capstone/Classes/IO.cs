@@ -41,7 +41,7 @@ namespace Capstone.Classes
 
         public void WriteReport(string filePath, List<VendingMachineItem> CurrentItemsInventory, VendingMachine vendingMachineName) //override
         {
-            //TODO: Optional report
+            
             try
             {
                 using (StreamWriter writer = new StreamWriter(Path.Combine(filePath, $"salesReport_ {DateTime.UtcNow.ToString("MM-dd-yyyy_hh-mm-ss")}.txt"), false))
