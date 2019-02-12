@@ -37,7 +37,7 @@ namespace Capstone.Classes
                         message = "Chew Chew, Yum!";
                         break;
                     default:
-                        message = "Salad-dodger! This food is bad for you! Eat a salad.";
+                        message = "Salad Dodger!";
                         break;
                 }
 

@@ -20,7 +20,8 @@ namespace Capstone.Classes
         {
             Console.Clear();
             //TODO: Underline current menu title
-            Console.WriteLine("Fulton Vending Company\n\n---Food Refactored---\n\n\nMAIN MENU\n\nPlease make a selection:\n\n(1) Display Vending Machine Items\n(2) Purchase\n(3) End\n");
+           
+            Console.WriteLine("Snacks Refactored!\n\nMAIN MENU\n\n(1) Display Vending Machine Items\n(2) Make A Purchase\n(3) End Program\n");
             string menuInput = Console.ReadLine();
 
             //TODO: KH Done Magic Constant for menu
@@ -101,7 +102,7 @@ namespace Capstone.Classes
             while (!(userSelection == FeedMoneyOption || userSelection == SelectProductOption || userSelection == FinishTransactionOption)) // Magic Constant test
             {
                 Console.Clear();
-                Console.WriteLine("PURCHASE MENU\n\nPlease make a selection:\n\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\n");
+                Console.WriteLine("PURCHASE MENU\n\n(1) Insert Payment\n(2) Select Product\n(3) Finish Transaction\n");
                 Console.WriteLine("Current Money Provided: {0:C}\n", vendingMachine.TransactionBalance);
                 userSelection = Console.ReadLine();
             }
@@ -134,7 +135,7 @@ namespace Capstone.Classes
             //bool isFeedMoneyAccepted = Counterfeit;
 
             Console.Clear();
-            Console.WriteLine("Please enter dollar bill to deposit (U.S. currency only)");
+            Console.WriteLine("Please enter whole dollar amount (1, 2, 5, 10, 20):");
             string dollarFeedInput = Console.ReadLine();
 
             if ( allowedBills.Contains(dollarFeedInput))
@@ -147,7 +148,7 @@ namespace Capstone.Classes
             }
             else
             {
-                Console.WriteLine("Whole dollar amounts ONLY: 1, 2, 5, 10, 20\n");
+                Console.WriteLine("Valid U.S. currency ONLY\n");
                 Console.ReadLine();
 
             }
@@ -158,7 +159,7 @@ namespace Capstone.Classes
         {
             Display();
 
-            Console.WriteLine("\nPlease select product code: ");
+            Console.WriteLine("\nSelect product code: ");
             string productSelector = Console.ReadLine(); // TODO KH Done Fix productSelector spelling
 
             string transactionResult = vendingMachine.Vend(productSelector);
@@ -175,9 +176,13 @@ namespace Capstone.Classes
                 }
 
             }
+            else if (transactionResult == "") // Magic Constant test
+            {
+                Console.WriteLine("OOPS - Nothing was entered!");
+            }
             else if (transactionResult == "DoesNotExist") // Magic Constant test
             {
-                Console.WriteLine("Item does not exist! Select a valid product code!");
+                Console.WriteLine("Item does not exist! Please enter a valid product code!");
             }
             else if (transactionResult == "OutOfStock") // Magic Constant test
             {
@@ -185,7 +190,7 @@ namespace Capstone.Classes
             }
             else //cant afford
             {
-                Console.WriteLine("Please enter more money or make another selection.");
+                Console.WriteLine("INSUFFICIENT FUNDS! Please make an alternative selection. Press enter to return to the PURCHASE MENU.");
             }
             Console.ReadLine();
 
