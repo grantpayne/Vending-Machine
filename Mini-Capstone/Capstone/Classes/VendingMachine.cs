@@ -32,6 +32,27 @@ namespace Capstone.Classes
 
         }
 
+        public VendingMachine(decimal initialBalance)
+        {
+            if (initialBalance < 0)
+            {
+                initialBalance = 0;
+            }
+            TransactionBalance = initialBalance;
+            TotalRevenue = 0M;
+            List<string[]> stockList = new List<string[]>();
+            stockList = io.FetchData(filePath, logFileName);
+
+            foreach (string[] stockItemArray in stockList)
+            {
+                string slotId = (stockItemArray[0]);
+                string itemName = (stockItemArray[1]);
+                decimal price = decimal.Parse(stockItemArray[2]);//TODO: Handle Parse exception
+                items.Add(new VendingMachineItem(slotId, itemName, price));
+            }
+
+        }
+
 
         public void AddTender(int moneyTendered)
         {
