@@ -22,7 +22,6 @@ namespace Capstone.Classes
             List<string[]> stockList = new List<string[]>();
             stockList = io.FetchData(filePath, logFileName);
 
-            //TODO: KH Done refactor stockItemArray indexing variables to specific names
             foreach (string[] stockItemArray in stockList)
             {
                 string slotId = (stockItemArray[0]);
@@ -36,20 +35,12 @@ namespace Capstone.Classes
 
         public void AddTender(int moneyTendered)
         {
-            //checked for dollars bills {1, 2, 5, 10, 20}
-            //List<int> allowedBills = new List<int> { 1, 2, 5, 10, 20 };
-            //bool isAcceptedUSBill = allowedBills.Contains(moneyTendered);
-
-
             TransactionBalance += moneyTendered;
             io.WriteLog(filePath, "FEED MONEY:", moneyTendered, TransactionBalance);
-
-
         }
 
         public string Vend(string itemSelection)
         {
-            //TODO KH ADDED CONST FOR STATUS
             const string sold = "SOLD";
             const string outOfStock = "OutOfStock";
             const string notASlotID = "DoesNotExist";
