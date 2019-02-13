@@ -21,13 +21,11 @@ namespace Capstone.Classes
         }//RunInterface
         public bool Menu()
         {
-            Console.Clear();
             //TODO: AB DONE Underline current menu title - Changed font color
-            StyleSheet styleSheet = new StyleSheet(Color.White);
-            styleSheet.AddStyle("MAIN MENU", (Color.LimeGreen));
-            Console.WriteLine("Fulton Vending Company...");
-            Console.WriteAscii("Snacking Refactored!", FigletFont.Default, Color.Plum);
-            Console.WriteLineStyled("MAIN MENU", styleSheet);
+            MasterPage();
+            StyleSheet styleSheetMM = new StyleSheet(Color.White);
+            styleSheetMM.AddStyle("MAIN MENU", (Color.LimeGreen));
+            Console.WriteLine("MAIN MENU", Color.LimeGreen);
             Console.WriteLine("\n(1) Display Vending Machine Items\n(2) Make A Purchase\n(3) End Program\n");
             string menuInput = Console.ReadLine();
 
@@ -45,7 +43,7 @@ namespace Capstone.Classes
             if (menuInput == DisplaySelction)
             {
                 Display();
-                Console.WriteLineStyled("\n\nPress enter to return to the MAIN MENU...", styleSheet);
+                Console.WriteLineStyled("\n\nPress enter to return to the MAIN MENU...", styleSheetMM);
                 Console.ReadLine();
                 return StopMenu;
             }
@@ -73,14 +71,15 @@ namespace Capstone.Classes
             }
             else
             {
-                Console.WriteLineStyled("SELECTION NOT VALID! Press enter to return to the MAIN MENU.", styleSheet);
+                Console.WriteLineStyled("SELECTION NOT VALID! Press enter to return to the MAIN MENU.", styleSheetMM);
                 Console.ReadLine();
                 return StopMenu;
             }
         }//Menu
         public void Display()
         {
-            Console.Clear();
+            MasterPage();
+            Console.WriteLine("VENDING MACHINE ITEMS\n", Color.LimeGreen);
             List<VendingMachineItem> items = vendingMachine.GetInventoryData();
             List<string> itemsDisplay = new List<string>();
             foreach (VendingMachineItem item in items)
@@ -88,8 +87,6 @@ namespace Capstone.Classes
                 itemsDisplay.Add(item.ToString());
             }
             itemsDisplay.Sort();
-            Console.WriteLine("Fulton Vending Company...");
-            Console.WriteAscii("Snacking Refactored!", FigletFont.Default, Color.Plum);
             Console.WriteLine(string.Format("{0, 10} {1, 20} {2, 8:C} {3, 11}", "Product", "Item", "Price", "Available"));
             Console.WriteLine(string.Format("{0, 7} {1, 20} {2, 6:C} {3, 16}", "Code", "", "", "Inventory"));
             Console.WriteLine("-----------------------------------------------------", (Color.LimeGreen));
@@ -100,6 +97,7 @@ namespace Capstone.Classes
         }//Display
         public bool Purchase()
         {
+            MasterPage();
             const bool PurchaseComplete = true;
             const bool PurchaseIncomplete = false;
 
@@ -113,9 +111,6 @@ namespace Capstone.Classes
             while (!(userSelection == FeedMoneyOption || userSelection == SelectProductOption || userSelection == FinishTransactionOption)) // Magic Constant test
             {
 
-                Console.Clear();
-                Console.WriteLine("Fulton Vending Company...");
-                Console.WriteAscii("Snacking Refactored!", FigletFont.Default, Color.Plum);
                 Console.WriteLine("PURCHASE MENU", Color.LimeGreen);
                 Console.WriteLine("\n(1) Insert Payment\n(2) Select Product\n(3) Complete Transaction\n");
                 Console.WriteLine("Current Money Provided: {0:C}\n", vendingMachine.TransactionBalance, (Color.LimeGreen));
@@ -148,10 +143,9 @@ namespace Capstone.Classes
             //const bool Counterfeit = false;
             //bool isFeedMoneyAccepted = Counterfeit;
 
-            Console.Clear();
-            Console.WriteLine("Fulton Vending Company...");
-            Console.WriteAscii("Snacking Refactored!", FigletFont.Default, Color.Plum);
-            Console.WriteLine("Please enter whole dollar amount (1, 2, 5, 10, 20):", Color.LimeGreen);
+            MasterPage();
+            Console.WriteLine("FEED MONEY\n", Color.LimeGreen);
+            Console.WriteLine("Please enter whole dollar amount (1, 2, 5, 10, 20):");
             string dollarFeedInput = Console.ReadLine();
 
             if (allowedBills.Contains(dollarFeedInput))
@@ -173,10 +167,12 @@ namespace Capstone.Classes
         }//FeedMoney
         public void SelectProduct()
         {
-            Console.WriteLine("Fulton Vending Company...");
-            Console.WriteAscii("Snacking Refactored!", FigletFont.Default, Color.Plum);
+            MasterPage();
+            StyleSheet styleSheetPM = new StyleSheet(Color.White);
+            styleSheetPM.AddStyle("PURCHASE MENU", (Color.LimeGreen));
+            Console.WriteLine("MAKE A PURCHASE\n", Color.LimeGreen);
             Display();
-            Console.WriteLine("\nEnter product code: ");
+            Console.WriteLine("\nEnter product code to purchase:", Color.LimeGreen);
             string productSelector = Console.ReadLine(); // TODO KH Done Fix productSelector spelling
 
             string transactionResult = vendingMachine.Vend(productSelector);
@@ -196,19 +192,19 @@ namespace Capstone.Classes
             }
             else if (transactionResult == "") // Magic Constant test
             {
-                Console.WriteLine("OOPS - Nothing was entered!");
+                Console.WriteLine("OOPS - Nothing was entered! Press enter to return to the PURCHASE MENU.", styleSheetPM);
             }
             else if (transactionResult == "DoesNotExist") // Magic Constant test
             {
-                Console.WriteLine("Item does not exist! Please enter a valid product code!");
+                Console.WriteLine("Item does not exist! Please enter a valid product code! Press enter to return to the PURCHASE MENU.", styleSheetPM);
             }
             else if (transactionResult == "OutOfStock") // Magic Constant test
             {
-                Console.WriteLine("OUT OF STOCK! Please make another selection.");
+                Console.WriteLine("OUT OF STOCK! Please make another selection. Press enter to return to the PURCHASE MENU.", styleSheetPM);
             }
             else //cant afford
             {
-                Console.WriteLine("INSUFFICIENT FUNDS! Please make an alternative selection. Press enter to return to the PURCHASE MENU.");
+                Console.WriteLineStyled("INSUFFICIENT FUNDS! Please make an alternative selection. Press enter to return to the PURCHASE MENU.", styleSheetPM);
             }
             Console.ReadLine();
 
@@ -216,13 +212,24 @@ namespace Capstone.Classes
         }//SelectProduct
         public void FinishTransaction()
         {
-
-            Console.Clear();
+            MasterPage();
+            Console.WriteLine("ENJOY YOUR SNACK!", Color.LimeGreen);
             Console.WriteLine($"Your change is {vendingMachine.TransactionBalance.ToString("C")}");
             int[] change = vendingMachine.DispenseChange();  //display change from decimal [] 
-            Console.WriteLine($"{change[0]} quarters, {change[1]} dimes, {change[2]} nickels");
+            Console.WriteLine($"{change[0]} quarters, {change[1]} dimes, {change[2]} nickels", Color.LimeGreen);
             Console.ReadLine();
         }//FinishTransaction
+        public void MasterPage()
+        {
+            Console.Clear();
+            Console.WriteLine("Fulton Vending Company...");
+            Console.WriteAscii("Snacking Refactored!", FigletFont.Default, Color.Plum);
+            StyleSheet styleSheetMM = new StyleSheet(Color.White);
+            styleSheetMM.AddStyle("MAIN MENU", (Color.LimeGreen));
+            //StyleSheet styleSheetPM = new StyleSheet(Color.White);
+            //styleSheetPM.AddStyle("PURCHASE MENU", (Color.LimeGreen));
+        }
+
 
     }//class
 }//namespace
