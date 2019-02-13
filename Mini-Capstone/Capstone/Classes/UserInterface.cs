@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Capstone.Classes;
+using System.Drawing;
+using Console = Colorful.Console;
+using Colorful;
 
 namespace Capstone.Classes
 {
@@ -19,9 +22,13 @@ namespace Capstone.Classes
         public bool Menu()
         {
             Console.Clear();
-            //TODO: Underline current menu title
-           
-            Console.WriteLine("Snacks Refactored!\n\nMAIN MENU\n\n(1) Display Vending Machine Items\n(2) Make A Purchase\n(3) End Program\n");
+            //TODO: AB DONE Underline current menu title - Changed font color
+            StyleSheet styleSheet = new StyleSheet(Color.White);
+            styleSheet.AddStyle("MAIN MENU", (Color.LimeGreen));
+            Console.WriteLine("Fulton Vending Company...");
+            Console.WriteAscii("Snacking Refactored!", FigletFont.Default, Color.Plum);
+            Console.WriteLineStyled("MAIN MENU", styleSheet);
+            Console.WriteLine("\n(1) Display Vending Machine Items\n(2) Make A Purchase\n(3) End Program\n");
             string menuInput = Console.ReadLine();
 
             //TODO: KH Done Magic Constant for menu
@@ -38,7 +45,7 @@ namespace Capstone.Classes
             if (menuInput == DisplaySelction)
             {
                 Display();
-                Console.WriteLine("\nPress enter to return to the MAIN MENU...");
+                Console.WriteLineStyled("\n\nPress enter to return to the MAIN MENU...", styleSheet);
                 Console.ReadLine();
                 return StopMenu;
             }
@@ -52,8 +59,8 @@ namespace Capstone.Classes
             }
             else if (menuInput == EndProgram)
             {
-                Console.WriteLine("Press enter to exit.");
-                Console.ReadLine();
+                //Console.WriteLine("Press enter to exit.");
+                //Console.ReadLine();
                 return ContinueMenu;
             }
             else if (menuInput == SecretReport)
@@ -66,7 +73,7 @@ namespace Capstone.Classes
             }
             else
             {
-                Console.WriteLine("Invalid selection - press enter to return to the main menu.");
+                Console.WriteLineStyled("SELECTION NOT VALID! Press enter to return to the MAIN MENU.", styleSheet);
                 Console.ReadLine();
                 return StopMenu;
             }
@@ -81,7 +88,11 @@ namespace Capstone.Classes
                 itemsDisplay.Add(item.ToString());
             }
             itemsDisplay.Sort();
-            Console.WriteLine(string.Format("{0, 5} {1, 25} {2, 8:C} {3, 9}\n", "Code", "Product", "Price", "Quantity"));
+            Console.WriteLine("Fulton Vending Company...");
+            Console.WriteAscii("Snacking Refactored!", FigletFont.Default, Color.Plum);
+            Console.WriteLine(string.Format("{0, 10} {1, 20} {2, 8:C} {3, 11}", "Product", "Item", "Price", "Available"));
+            Console.WriteLine(string.Format("{0, 7} {1, 20} {2, 6:C} {3, 16}", "Code", "", "", "Inventory"));
+            Console.WriteLine("-----------------------------------------------------", (Color.LimeGreen));
             foreach (string item in itemsDisplay)
             {
                 Console.WriteLine(item);
@@ -101,9 +112,13 @@ namespace Capstone.Classes
             // might want to consider separate method for testing valid user selection
             while (!(userSelection == FeedMoneyOption || userSelection == SelectProductOption || userSelection == FinishTransactionOption)) // Magic Constant test
             {
+
                 Console.Clear();
-                Console.WriteLine("PURCHASE MENU\n\n(1) Insert Payment\n(2) Select Product\n(3) Finish Transaction\n");
-                Console.WriteLine("Current Money Provided: {0:C}\n", vendingMachine.TransactionBalance);
+                Console.WriteLine("Fulton Vending Company...");
+                Console.WriteAscii("Snacking Refactored!", FigletFont.Default, Color.Plum);
+                Console.WriteLine("PURCHASE MENU", Color.LimeGreen);
+                Console.WriteLine("\n(1) Insert Payment\n(2) Select Product\n(3) Complete Transaction\n");
+                Console.WriteLine("Current Money Provided: {0:C}\n", vendingMachine.TransactionBalance, (Color.LimeGreen));
                 userSelection = Console.ReadLine();
             }
             if (userSelection == FeedMoneyOption)
@@ -134,12 +149,14 @@ namespace Capstone.Classes
             //bool isFeedMoneyAccepted = Counterfeit;
 
             Console.Clear();
-            Console.WriteLine("Please enter whole dollar amount (1, 2, 5, 10, 20):");
+            Console.WriteLine("Fulton Vending Company...");
+            Console.WriteAscii("Snacking Refactored!", FigletFont.Default, Color.Plum);
+            Console.WriteLine("Please enter whole dollar amount (1, 2, 5, 10, 20):", Color.LimeGreen);
             string dollarFeedInput = Console.ReadLine();
 
-            if ( allowedBills.Contains(dollarFeedInput))
+            if (allowedBills.Contains(dollarFeedInput))
             {
-               
+
                 int dollarFeed = 0;
                 int.TryParse(dollarFeedInput, out dollarFeed);
                 vendingMachine.AddTender(dollarFeed);
@@ -156,9 +173,10 @@ namespace Capstone.Classes
         }//FeedMoney
         public void SelectProduct()
         {
+            Console.WriteLine("Fulton Vending Company...");
+            Console.WriteAscii("Snacking Refactored!", FigletFont.Default, Color.Plum);
             Display();
-
-            Console.WriteLine("\nSelect product code: ");
+            Console.WriteLine("\nEnter product code: ");
             string productSelector = Console.ReadLine(); // TODO KH Done Fix productSelector spelling
 
             string transactionResult = vendingMachine.Vend(productSelector);
@@ -170,7 +188,8 @@ namespace Capstone.Classes
                 {
                     if (item.SlotID.ToUpper() == productSelector.ToUpper())
                     {
-                        Console.WriteLine(item.Message);
+                        Console.WriteAscii(item.Message, FigletFont.Default, Color.LawnGreen);
+                        
                     }
                 }
 
