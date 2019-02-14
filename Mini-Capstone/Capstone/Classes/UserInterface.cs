@@ -63,7 +63,7 @@ namespace Capstone.Classes
             }
             else if (menuInput == SecretReport)
             {
-                Console.WriteLine("Generating sales report...");
+                Console.WriteLine("Generating sales report...", Color.LimeGreen);
                 InitiateSalesReport();
                 Console.ReadLine();
                 Console.Clear();
@@ -213,8 +213,8 @@ namespace Capstone.Classes
         public void FinishTransaction()
         {
             MasterPage();
-            Console.WriteLine("ENJOY YOUR SNACK!", Color.LimeGreen);
-            Console.WriteLine($"Your change is {vendingMachine.TransactionBalance.ToString("C")}");
+            Console.WriteLine("ENJOY YOUR SNACK!\n", Color.LimeGreen);
+            Console.WriteLine($"Your change is {vendingMachine.TransactionBalance.ToString("C")}\n");
             int[] change = vendingMachine.DispenseChange();  //display change from decimal [] 
             Console.WriteLine($"{change[0]} quarters, {change[1]} dimes, {change[2]} nickels", Color.LimeGreen);
             Console.ReadLine();
@@ -222,7 +222,7 @@ namespace Capstone.Classes
         public void MasterPage()
         {
             Console.Clear();
-            Console.WriteLine("Fulton Vending Company...");
+            Console.WriteLine("Umbrella Corp: Vendo-Matic 7000");
             Console.WriteAscii("Snacking Refactored!", FigletFont.Default, Color.Plum);
             StyleSheet styleSheetMM = new StyleSheet(Color.White);
             styleSheetMM.AddStyle("MAIN MENU", (Color.LimeGreen));
