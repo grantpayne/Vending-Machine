@@ -5,6 +5,8 @@ using Capstone.Classes;
 using System.Drawing;
 using Console = Colorful.Console;
 using Colorful;
+using System.Threading;
+using System.Linq;
 
 namespace Capstone.Classes
 {
@@ -21,7 +23,7 @@ namespace Capstone.Classes
         }//RunInterface
         public bool Menu()
         {
-            //TODO: AB DONE Underline current menu title - Changed font color
+            
             MasterPage();
             StyleSheet styleSheetMM = new StyleSheet(Color.White);
             styleSheetMM.AddStyle("MAIN MENU", (Color.LimeGreen));
@@ -29,10 +31,9 @@ namespace Capstone.Classes
             Console.WriteLine("\n(1) Display Vending Machine Items\n(2) Make A Purchase\n(3) End Program\n");
             string menuInput = Console.ReadLine();
 
-            //TODO: KH Done Magic Constant for menu
+           
             const bool StopMenu = false;
             const bool ContinueMenu = true;
-            //const bool Complete = true;
             const bool Incomplete = false;
             bool isPurchaseTransactionComplete = Incomplete;
             const string DisplaySelction = "1";
@@ -57,8 +58,6 @@ namespace Capstone.Classes
             }
             else if (menuInput == EndProgram)
             {
-                //Console.WriteLine("Press enter to exit.");
-                //Console.ReadLine();
                 return ContinueMenu;
             }
             else if (menuInput == SecretReport)
@@ -71,6 +70,7 @@ namespace Capstone.Classes
             }
             else
             {
+                ErrorMessage();                    
                 Console.WriteLineStyled("SELECTION NOT VALID! Press enter to return to the MAIN MENU.", styleSheetMM);
                 Console.ReadLine();
                 return StopMenu;
@@ -158,6 +158,7 @@ namespace Capstone.Classes
             }
             else
             {
+                ErrorMessage();
                 Console.WriteLine("Valid U.S. currency ONLY\n");
                 Console.ReadLine();
 
@@ -173,11 +174,11 @@ namespace Capstone.Classes
             Console.WriteLine("MAKE A PURCHASE\n", Color.LimeGreen);
             Display();
             Console.WriteLine("\nEnter product code to purchase:", Color.LimeGreen);
-            string productSelector = Console.ReadLine(); // TODO KH Done Fix productSelector spelling
+            string productSelector = Console.ReadLine(); 
 
             string transactionResult = vendingMachine.Vend(productSelector);
 
-            if (transactionResult == "SOLD")//Magic Sold
+            if (transactionResult == "SOLD")
             {
                 List<VendingMachineItem> products = new List<VendingMachineItem>(vendingMachine.GetInventoryData());
                 foreach (VendingMachineItem item in products)
@@ -192,18 +193,23 @@ namespace Capstone.Classes
             }
             else if (transactionResult == "") // Magic Constant test
             {
+                ErrorMessage();
                 Console.WriteLine("OOPS - Nothing was entered! Press enter to return to the PURCHASE MENU.", styleSheetPM);
+                
             }
             else if (transactionResult == "DoesNotExist") // Magic Constant test
             {
+                ErrorMessage();
                 Console.WriteLine("Item does not exist! Please enter a valid product code! Press enter to return to the PURCHASE MENU.", styleSheetPM);
             }
             else if (transactionResult == "OutOfStock") // Magic Constant test
             {
+                ErrorMessage();
                 Console.WriteLine("OUT OF STOCK! Please make another selection. Press enter to return to the PURCHASE MENU.", styleSheetPM);
             }
             else //cant afford
             {
+                ErrorMessage();
                 Console.WriteLineStyled("INSUFFICIENT FUNDS! Please make an alternative selection. Press enter to return to the PURCHASE MENU.", styleSheetPM);
             }
             Console.ReadLine();
@@ -229,7 +235,113 @@ namespace Capstone.Classes
             //StyleSheet styleSheetPM = new StyleSheet(Color.White);
             //styleSheetPM.AddStyle("PURCHASE MENU", (Color.LimeGreen));
         }
+        static void ErrorMessage()
+        {
+            Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+            var errorImg = new[]
+            {
+                @"***********************************************************************************************************************",
+                "For Technical Assistance please call 614 - 565 - 8382",
+                "Anything worth doing has atleast three ways of doing it!" ,
+                "Alas, this is not one of those ways.",
+                "Please try again!",
+                "***********************************************************************************************************************",
+                //ascii image created with https://manytools.org/hacker-tools/convert-images-to-ascii-art/go
+                @"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(*,,,,..,,,,*/(%&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#*,,,,,,,,,,,,,,,.,,,,,**,,,,,.,,,#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/,,,,,,,,,,,,,,,,,,,,,,,,,,,**,,,,,,.,....../@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#,,,,,,,,,,,,,,,,,,,,,,,,,,,....,***,,,,,,,,........,.(@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@******,**,,*,,,,,,,,,,,,,,,,.......,***,*,,,.,.........,..,,/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@@@@@@@@@@@,************,,,,,,/(((((((((#(,,,,,,,,***,*,,,...........,,,,,,,,*@@@@@@@@@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@@@@@@@@*,..****,,,,,,,,,,,#%#%%%&&%###%&&&&&/,,,,,**,*,,,.,.........,,,,**,****(@@@@@@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@@@@@&***,.,****,,,,,,,,,(%&&&@@@@@@@@@@@@@@@@&(,,,****,,,........,,****,******%&@@@@@@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@@@%************,*,,,,,*&&&@@@@@@@@@@@@@@@@@@@@@%,,*******,.........****,******&@@@@#%@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@%,,(***,*****,*,******#@@&&&@@@@@@@@@@@@@@@@@@@%*,*******...........,**********///****%@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@&/(,*(***********,,,,,,,#&&&&&&@@@@@@@@@@@@@@@&&&%(,***/**********.....*,,*******/****//**&@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@***,,*(***,,,,,,,,,,,,,,,%&&&&&&&@@@@@@@@@@@@@&&&&%#****//(#(,,,,,/.....,,,**********,***////@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@%%%%%#//***,,,,,,,,,,,,,,,(%##%&&&&&&&&&&((((#%%/%***/,,,,,,,,,/.....,,,********,,,****////%@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@%######(/****,,,,,,,,,,,,,,,(#####(%###(/(#%%%%&&&%&%&****,,,,,,,,,/.....,,,********,,,**//////((@@@@@@@@@@@@",
+                @"@@@@@@@@@########(/**,,,,,,,,,,,,,,,,,(#///((/##%%%/&@&&&&&&%&&&&@****/((/,,,,,/.....,,,*********,,**/////((((@@@@@@@@@",
+                @"@@@@@@@&%%%%#%####//*,,,,,,,,,,,,,,,,,//###%%%%%&&%%&@@&%&&&&&&&/***,,,,,,,,,*......,**********,,*//////((((#&@@@@@@@@@",
+                @"@@@@@@&%%%%%%%%%%#//*,,,,,,,,,,,,,,,,,,#/####%%&&%(/,//(%&%(#%&&&*****/**,...........,,**********,,,,,*////(((((%@@@@@@",
+                @"@@@@@&%%%%%%%%%%%#//*,,,,,,,,,,,,,,,,,,,####(((((((##%&%##%%@&&&&****////*.........,*,*********/*,,,,,*//((((((((@@@@@@",
+                @"@@@@@%%%%%%%%%%%%%//*,,,,,,,,,,,,,,,,,,,,*####%%&&%%%&&&@@@@&&&%(,***////*,.........,,********//*,,,,,*/((((((((*,@@@@@",
+                @"@@@@%%%%%%%%%%%%#%//*,,,,,,,,,,,,,,,,,,,,,*(#%%&%&&&&&@@@@@&%&%(,/(**////*,,.........,,******////,,,,,*/////((((*,,@@@@",
+                @"@@@&&&&&&&&&&&&&&&(/*,,,,,,,,,,,,,,,,,,,,,,*/((#%#(((#(/(//####%.*%@(,,,,,,*,,,,.....,,*****/////,,*////////((((,,,*@@@",
+                @"@@@&&&&&&&&&&&&&&&(/*,,*,,,,,,,,,,,,,,,,,,,%%((((((((///(%%%%%#%(,%&@@@*,,,,,,,,,,,,.,,*****/////,,*/////(((//((*,*,%@@",
+                @"@@%&&&&&&&&&&&&&&&(/*,,**,,,,,,,,,,,,,,,. %&%%#///(((((/(#%%##%*#@&&@@@,,,,,,,,,,,,,,/****/////,,*////////**//,,,,,@@@@",
+                @"@&%&&&&&&&&&&&&&&&(/*,,*,,,,,,,,,,,*,,,,,%&&&%%%/*////((((##%%&/   .%@@*.,,,,,,,.,,*****/////,,,////////*//(*,,,,#@@@@@",
+                @"@%%&&&&&&&&&&&&&&/*,,,,,,,,,,*,,,,,,,,*@@@@@@@@&*/////((#%%&&% .       ..,,,,,,,.,,,****/////,,,///////**//(****,,@@@@@",
+                @"@%%&&&&&&&&&&&&&&/*,,,,,,,,,,,,,,,,,,,(@@@@&*  .*/%(((((#%&&&&* ...........,,,,,,..,..,***/////,,,///////*,,*(*,,,,,&@@",
+                @"&%%%%%%%%%#########/*,,,,,,,,,,,.,,,,,..#(    ..      .,#%##%&,...............,,,,,.....,,**//*//,,,////////***(*,,,,.(",
+                @"%############%#####/**,,,,..,..........................,,...............,..............,..,*/////,,,///////////*,,,,,.*",
+                @"%%%#%#%#%%%%%%%%%%%//*,,,,..................................,...........,................,,,*///*,.......,.............",
+                @"%%%%%%%%%%%%%%%%%%#//*,.................,,.........................,..,..................,,,,,.......,,,,,,,,,,,,,,,***",
+                @"%%%%%%%%%%%%%%%%%%%//................. ..,,........................,,,,...................,,,,,******,,,,,,,,,,,,,,,,,,",
+                @"%%%%%%%%%%%%%%%%%%%*......... ......... ...,...........................,,,..............,...,,,,,,..,***/*****,...... .",
+                @"%%%%%%%%%&&&%%&&&.......  .  ..   . .  ...,,...................................  ............,,,..**********,........  ",
+                @"#%%%%%%%%%%&%%%(... .... .  .           ....,..................................  ...........,,,,,,,**.,.,**,,,.,.,. /  ",
+                @"@##%%%%%%%%%%%%%%,. ..... ..   .            ...,...........,......................  . ..........,.,,,**,..,..,.,..,...&",
+                @"@##%%%%%%%%%%%%%*......   ...                .....................................  ........ ........,*...............@",
+                @"@%%%%%%%%%%%#.......    ....                 .................,..................    ..  ...........,****,,,,......(@@@",
+                @"@@%%%%%%%%%%%*......       ..                   ......... ..........................    ..........,.,,.,***,.,.......@@",
+                @"@@&%%%######,.,,.   .........                     ...,....   .......................      ...     .....,,**,,.......#@@",
+                @"@@@########,,...,......                              ..,...      .................  .   .   ...  ..   ..,..........,@@@",
+                @"@@@@#####(,,..... ..                                    ...,..         ............      .............. .,.........@@@@",
+                @"@@@@@####,,,,....    ......                                .......         .....    ..... .......... ....*((##%%%&@@@@@",
+                @"@@@@@(..    . ...................            .      ..        ......,,,,,,.,,................. ..... ..#&&&&&&&@@@@@@@@",
+                @"@@@@@@&/    ...........................,(//(#%&%(/*...             ,,,,,,,,........,,...................,%%%%%%%&@@@@@@",
+                @"@@@@@@@&/.....   ....................,@&@@@@@@@@@@@@@@,......  .,,,,,,,,,,,,,,,,,,,,,,,...............#%%%%%%@@@@@@@@@@",
+                @"@@@@@@@@@%..  ......................,&%%%&&&&&@@@%###%&&@@@&   .,,,...............,,,,,,,,,,,,......../%%%%%%%@@@@@@@@@",
+                @"@@@@@@@@@@%(,.         .............#%*/(##%%%&&@@@%/*.*/**...,,...................    .,,,,,,,,,,,,,..(%%%%%@@@@@@@@@@",
+                @"@@@@@@@@@@@@&&&%%%#,        .      */(,,//((##&%&&@@@@@&%%&&&&&........................    .,,,,,,,,,,,,,,*&@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@%%%####/*,...          ../,...////(((((##%&&&&&%%,..........................      .,,,,,,,,,,@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@%#####(**,,,........,((.  .   (#%&@&@@@&(***(%(.... ...    ...   ............      ..,,,,&@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@#####***,,..,.....*((.....   (//(####(((((/....   .         .     ..... ....       .#@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@@@###(****,**,,..../(*.....  .((//(%&&@@@&....     .                  .....  ..   (@@@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@@@@@@####/***//*,,,..,((.....    ,/(/*****, ...       .                     .. . .%@@@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@@@@@@@@##(**////*,,,,.*(*.....         ,**. .          .                       ,@@@@@@@@@@@@@@@@@@@@@@@",
+                @"@@@@@@@@@@@@@@@@@@@@@@@@@@(//////*,,,,,*(......             .           .                   .@@@@@@@@@@@@@@@@@@@@@@@@@@",
+            };
 
+            var maxLength = errorImg.Aggregate(0, (max, line) => Math.Max(max, line.Length));
+            var x = Console.BufferWidth / 2 - maxLength / 2;
+            for (int y = -errorImg.Length; y < Console.WindowHeight + -errorImg.Length; y++)
+            {
+                ConsoleDraw(errorImg, x, y);
+                Thread.Sleep(100);
+            }
+            Console.ReadLine();
+            Console.Clear();
+        } //ErrorMessage
+        static void ConsoleDraw(IEnumerable<string> lines, int x, int y) //pulled from https://stackoverflow.com/questions/2725529/how-to-create-ascii-animation-in-windows-console-application-using-c
+        {
+            if (x > Console.WindowWidth) return;
+            if (y > Console.WindowHeight) return;
 
+            var trimLeft = x < 0 ? -x : 0;
+            int index = y;
+
+            x = x < 0 ? 0 : x;
+            y = y < 0 ? 0 : y;
+
+            var linesToPrint =
+                from line in lines
+                let currentIndex = index++
+                where currentIndex > 0 && currentIndex < Console.WindowHeight
+                select new
+                {
+                    Text = new String(line.Skip(trimLeft).Take(Math.Min(Console.WindowWidth - x, line.Length - trimLeft)).ToArray()),
+                    X = x,
+                    Y = y++
+                };
+
+            Console.Clear();
+            foreach (var line in linesToPrint)
+            {
+                Console.SetCursorPosition(line.X, line.Y);
+                Console.Write(line.Text);
+            }
+        }//ConsoleDraw
     }//class
 }//namespace
