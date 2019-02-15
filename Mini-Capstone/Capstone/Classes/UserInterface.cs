@@ -90,6 +90,7 @@ namespace Capstone.Classes
             Console.WriteLine(string.Format("{0, 10} {1, 20} {2, 8:C} {3, 11}", "Product", "Item", "Price", "Available"));
             Console.WriteLine(string.Format("{0, 7} {1, 20} {2, 6:C} {3, 16}", "Code", "", "", "Inventory"));
             Console.WriteLine("-----------------------------------------------------", (Color.LimeGreen));
+            //TODO moving this to vending machine class in order of display --state assumption
             foreach (string item in itemsDisplay)
             {
                 Console.WriteLine(item);
@@ -191,7 +192,7 @@ namespace Capstone.Classes
                 }
 
             }
-            else if (transactionResult == "") // Magic Constant test
+            else if (transactionResult == "") // Magic Constant test num instead of strng a+ switch case?
             {
                 ErrorMessage();
                 Console.WriteLine("OOPS - Nothing was entered! Press enter to return to the PURCHASE MENU.", styleSheetPM);
@@ -225,6 +226,7 @@ namespace Capstone.Classes
             Console.WriteLine($"{change[0]} quarters, {change[1]} dimes, {change[2]} nickels", Color.LimeGreen);
             Console.ReadLine();
         }//FinishTransaction
+
         public void MasterPage()
         {
             Console.Clear();

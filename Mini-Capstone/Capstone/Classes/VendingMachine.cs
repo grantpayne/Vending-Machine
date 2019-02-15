@@ -32,6 +32,8 @@ namespace Capstone.Classes
 
         }
 
+        //TODO refactor constructor
+
         public VendingMachine(decimal initialBalance)
         {
             if (initialBalance < 0)
@@ -52,7 +54,7 @@ namespace Capstone.Classes
             }
 
         }
-
+        //todo move to io?
 
         public void AddTender(int moneyTendered)
         {
@@ -103,7 +105,7 @@ namespace Capstone.Classes
                 }
             }
             return result;
-        }
+        }  //TODO reverse logic else = success
 
         public int[] DispenseChange()
         {
