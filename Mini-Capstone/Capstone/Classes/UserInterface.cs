@@ -242,7 +242,7 @@ namespace Capstone.Classes
             {
                 @"***********************************************************************************************************************",
                 "For Technical Assistance please call 614 - 565 - 8382",
-                "Anything worth doing has atleast three ways of doing it!" ,
+                "Anything worth doing has at least three ways of doing it!" ,
                 "Alas, this is not one of those ways.",
                 "Please try again!",
                 "***********************************************************************************************************************",
